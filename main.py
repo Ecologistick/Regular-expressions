@@ -6,7 +6,6 @@ import re
 with open("phonebook_raw.csv") as f:
   rows = csv.reader(f, delimiter=",")
   contacts_list = list(rows)
-# pprint(contacts_list)
 
 
 result_list = []
@@ -75,28 +74,32 @@ for item in contacts_list:
   result_list.append(contact)
 
 
+blacklist = []
+
+
 for item in result_list:
   n = 0
   count = 0
-  blacklist = []
   original = item
   lastname = item[0]
   while n != len(result_list):
     if lastname == result_list[n][0]:
       count += 1
       if count == 2:
-        print(item)
-        print(result_list[n])
+        blacklist.append(item)
     n += 1
   if count < 2:
     p_list.append(item)
   else:
-    # print(item)
     pass
 
 
+for element in blacklist[1]:
+    if element not in blacklist[0] and element != None:
+        blacklist[0].append(element)
 
-# with open("phonebook.csv", "w") as f:
-#   datawriter = csv.writer(f, delimiter=',')
-#   # Вместо contacts_list подставьте свой список
-#   datawriter.writerows(contacts_list)
+
+
+with open("phonebook.csv", "w") as f:
+  datawriter = csv.writer(f, delimiter=',')
+  datawriter.writerows(result_list)
